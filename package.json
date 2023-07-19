@@ -1,3 +1,10 @@
 {
-  "type": "module"
+  "type": "module",
+  "name": "uri-hierarchy-generator",
+  "description": "A module to generate URI hierarchy based on device descriptions and relationships",
+  "main": "example.js",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "AGPL-3.0-or-later"
 }

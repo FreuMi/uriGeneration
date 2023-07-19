@@ -1,5 +1,3 @@
-import { td1, td2, td3, td4, td5 } from './exampleTds.js';
-
 /**
  * Represents a node in a tree structure.
  */
@@ -66,12 +64,9 @@ function createUris(rootNodes, base) {
  * @param {string} baseUri - The base URI of the Pod.
  * @returns {Array} - The list of generated URIs.
  */
-export function generateUriHierarchy(
-  thingDescriptionsWithURI,
-  baseUri
-) {
+export function generateUriHierarchy(thingDescriptionsWithURI, baseUri) {
   // Remove / at the end of baseUri to generate corect URIs
-  if (baseUri.endsWith('/')) {
+  if (baseUri.endsWith("/")) {
     baseUri = baseUri.slice(0, -1);
   }
 
@@ -91,26 +86,26 @@ export function generateUriHierarchy(
     const td = TNode.td;
 
     // Set Children
-    if (typeof td['sosa:hosts'] !== 'undefined') {
+    if (typeof td["sosa:hosts"] !== "undefined") {
       let urisOfChilds = [];
       // Handle Arrays
-      if (!Array.isArray(td['sosa:hosts'])) {
-        urisOfChilds.push(td['sosa:hosts']);
+      if (!Array.isArray(td["sosa:hosts"])) {
+        urisOfChilds.push(td["sosa:hosts"]);
       } else {
-        urisOfChilds = [...td['sosa:hosts']];
+        urisOfChilds = [...td["sosa:hosts"]];
       }
       for (const uriOfChild of urisOfChilds) {
         TNode.addChild(treeNodes[uriOfChild]);
       }
     }
     // Set Parent
-    if (typeof td['sosa:isHostedBy'] !== 'undefined') {
+    if (typeof td["sosa:isHostedBy"] !== "undefined") {
       let urisOfParents = [];
       // Handle Arrays
-      if (!Array.isArray(td['sosa:isHostedBy'])) {
-        urisOfParents.push(td['sosa:isHostedBy']);
+      if (!Array.isArray(td["sosa:isHostedBy"])) {
+        urisOfParents.push(td["sosa:isHostedBy"]);
       } else {
-        urisOfParents = [...td['sosa:isHostedBy']];
+        urisOfParents = [...td["sosa:isHostedBy"]];
       }
       for (const uriOfParent of urisOfParents) {
         TNode.setParent(treeNodes[uriOfParent]);
@@ -123,19 +118,3 @@ export function generateUriHierarchy(
 
   return createUris(Object.values(rootNodes), baseUri);
 }
-
-// Input Map with Thing ID as key and TD as value
-const I = {
-  [td1.id]: td1,
-  [td2.id]: td2,
-  [td3.id]: td3,
-  [td4.id]: td4,
-  [td5.id]: td5,
-};
-
-// Base uri used for generation
-const baseUri = 'http://example.org/';
-
-const generatedUris = generateUriHierarchy(I, baseUri);
-console.log("Generated URIS:")
-console.log(generatedUris);
