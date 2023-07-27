@@ -13,6 +13,6 @@ const I = {
 // Base uri used for generation
 const baseUri = "http://example.org/";
 
-const generatedUris = generateUriHierarchy(I, baseUri);
+const generatedUris = await generateUriHierarchy(I, baseUri);
 console.log("Generated URIS:");
 console.log(generatedUris);

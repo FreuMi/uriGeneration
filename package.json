@@ -4,7 +4,9 @@
   "description": "A module to generate URI hierarchy based on device descriptions and relationships",
   "main": "example.js",
   "version": "1.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "urdf": "https://github.com/vcharpenay/uRDF.js"
+  },
   "devDependencies": {},
   "license": "AGPL-3.0-or-later"
 }
