@@ -11,8 +11,12 @@ This project was tested using Node.js v18.8.0.
 Clone the repository:
 
 ```bash
-git clone <repository_url>
-cd <repository_directory>
+git clone https://github.com/FreuMi/uriGeneration
+cd uriGeneration
+```
+Install dependencies:
+```bash
+npm install
 ```
 
 ## Usage
