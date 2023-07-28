@@ -133,46 +133,56 @@ export async function generateUriHierarchy(thingDescriptionsWithURI, baseUri) {
     const TNode = new TreeNode(uri, td);
     treeNodes[uri] = TNode;
   }
-  // Set Children and Parents of each TreeNode
-  for (const uri in treeNodes) {
-    const TNode = treeNodes[uri];
-    const td = TNode.td;
 
-    // Set Children
-    const resQueryHosts = await queryTD(
-      td,
-      `PREFIX sosa: <http://www.w3.org/ns/sosa/>
+  // Only set relations if multiple TDs are provided
+  // Used for orchestrator
+  if (thingDescriptionsWithURI.length > 0) {
+    // Set Children and Parents of each TreeNode
+    for (const uri in treeNodes) {
+      const TNode = treeNodes[uri];
+      const td = TNode.td;
+
+      // Set Children
+      const resQueryHosts = await queryTD(
+        td,
+        `PREFIX sosa: <http://www.w3.org/ns/sosa/>
       SELECT ?o
       WHERE {
           ?s sosa:hosts ?o .
       }`
-    );
-    const urisOfChilds = resQueryHosts.map((item) => item.o.value);
-    for (const uriOfChild of urisOfChilds) {
-      TNode.addChild(treeNodes[uriOfChild]);
-    }
+      );
+      const urisOfChilds = resQueryHosts.map((item) => item.o.value);
+      for (const uriOfChild of urisOfChilds) {
+        TNode.addChild(treeNodes[uriOfChild]);
+      }
 
-    // Set Parent
-    const resQueryHostedBy = await queryTD(
-      td,
-      `PREFIX sosa: <http://www.w3.org/ns/sosa/>
+      // Set Parent
+      const resQueryHostedBy = await queryTD(
+        td,
+        `PREFIX sosa: <http://www.w3.org/ns/sosa/>
       SELECT ?o
       WHERE {
           ?s sosa:isHostedBy ?o .
       }`
-    );
-    const urisOfParents = resQueryHostedBy.map((item) => item.o.value);
+      );
+      const urisOfParents = resQueryHostedBy.map((item) => item.o.value);
 
-    if (urisOfParents.length > 0) {
-      for (const uriOfParent of urisOfParents) {
-        TNode.setParent(treeNodes[uriOfParent]);
+      if (urisOfParents.length > 0) {
+        for (const uriOfParent of urisOfParents) {
+          TNode.setParent(treeNodes[uriOfParent]);
+        }
+      } else {
+        // If node has no parent, then it's a root node
+        rootNodes.push(TNode);
       }
-    } else {
-      // If node has no parent, then it's a root node
+    }
+  } else {
+    // Create URIs for Mediator
+    for (const uri in treeNodes) {
+      const TNode = treeNodes[uri];
       rootNodes.push(TNode);
     }
   }
-
   const createdURIs = await createUris(Object.values(rootNodes), baseUri);
   return createdURIs;
 }
