@@ -37,8 +37,6 @@ class TreeNode {
  */
 async function traverseTree(rootNode, path, uriList) {
   const newPath = `${path}${rootNode.td.title}/`;
-  console.log("newPath", newPath);
-
   // Add properties
   const properties = await queryTD(
     rootNode.td,
@@ -122,7 +120,6 @@ export async function generateUriHierarchy(thingDescriptionsWithURI, baseUri) {
   if (baseUri.endsWith("/")) {
     baseUri = baseUri.slice(0, -1);
   }
-
   // Generate TreeNodes for each Device:
   const treeNodes = {};
   const rootNodes = [];
@@ -136,7 +133,7 @@ export async function generateUriHierarchy(thingDescriptionsWithURI, baseUri) {
 
   // Only set relations if multiple TDs are provided
   // Used for orchestrator
-  if (thingDescriptionsWithURI.length > 0) {
+  if (Object.keys(thingDescriptionsWithURI).length > 0) {
     // Set Children and Parents of each TreeNode
     for (const uri in treeNodes) {
       const TNode = treeNodes[uri];
@@ -198,12 +195,3 @@ async function queryTD(td, query) {
   await urdf.load(td);
   return await urdf.query(query);
 }
-
-/*  const res = await queryTD(
-  rootNode.td,
-  `PREFIX td: <https://www.w3.org/2019/wot/td#/>
-  SELECT ?o
-  WHERE {
-      ?s td:hasPropertyAffordance ?o .
-  }`
-); */

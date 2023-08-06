@@ -54,6 +54,9 @@ If a Thing Description includes a `sosa:hosts` property, the function adds the h
 
 After building the tree of devices, the function then generates a URI for each device by traversing the tree and appending the title of each node to the base URI.
 
+## demo
+![DemonstrateAlgorithm](demo.gif)
+
 ## License
 
 [GNU Affero General Public License Version 3](https://www.gnu.org/licenses/agpl-3.0.en.html)

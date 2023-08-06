@@ -15,4 +15,6 @@ const baseUri = "http://example.org/";
 
 const generatedUris = await generateUriHierarchy(I, baseUri);
 console.log("Generated URIS:");
-console.log(generatedUris);
+for (const uri of generatedUris){
+  console.log(uri)
+}
